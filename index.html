@@ -1044,7 +1044,7 @@ p{line-height:1.7;color:rgba(255,255,255,0.85)}
           </div>
           <div style="background:var(--blanc);padding:0 0 16px 0">
           <iframe
-              data-tally-src="https://tally.so/embed/2Er1jj?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              data-tally-src="https://tally.so/embed/2Er1jj?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&emoji=%F0%9F%93%8B"
               loading="lazy"
               width="100%"
               height="900"
@@ -1075,8 +1075,19 @@ p{line-height:1.7;color:rgba(255,255,255,0.85)}
           </ul>
         </div>
 
-        <div style="margin-top:32px;text-align:center">
-          <button class="btn-primary" onclick="goTo('p8')">Confirmer ma demande</button>
+        <div style="margin-top:32px;text-align:center" id="confirm-wrapper">
+          <div id="confirm-pending" style="padding:16px;background:rgba(74,144,217,0.08);border:1px solid rgba(74,144,217,0.2);border-radius:4px;font-size:14px;color:var(--ardoise)">
+            Remplissez le formulaire ci-dessus pour confirmer votre demande.
+          </div>
+          <div id="confirm-ready" style="display:none;animation:fadeIn 0.5s ease">
+            <div style="padding:12px 16px;background:rgba(74,144,217,0.08);border:1px solid rgba(74,144,217,0.25);border-radius:4px;margin-bottom:16px;font-size:14px;color:var(--ardoise);display:flex;align-items:center;gap:10px">
+              <span style="font-size:18px">✅</span>
+              <span>Formulaire bien reçu. Cliquez pour confirmer votre demande.</span>
+            </div>
+            <button class="btn-primary" onclick="goTo('p8')" style="max-width:460px">
+              ➡ Confirmer ma demande
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -1177,16 +1188,7 @@ p{line-height:1.7;color:rgba(255,255,255,0.85)}
 const pages = ['p1','p2','p3','p4','p5','p6','p7','p8'];
 const progressMap = {p1:12.5,p2:25,p3:37.5,p4:50,p5:62.5,p6:75,p7:87.5,p8:100};
 
-// Detect hash on load — handles Tally redirect to #p8
-function checkHash() {
-  const hash = window.location.hash.replace('#','');
-  if(hash && pages.includes(hash)) {
-    goTo(hash);
-  }
-}
-window.addEventListener('DOMContentLoaded', checkHash);
-window.addEventListener('load', checkHash);
-window.addEventListener('hashchange', checkHash);
+// Hash navigation only on explicit user action — never on load/refresh
 
 const history_stack = [];
 
@@ -1238,6 +1240,19 @@ function goBack() {
     }
   }
 }
+
+// Listen for Tally form submission signal
+window.addEventListener('message', function(event) {
+  if(event.data && event.data.type === 'tally-form-response') {
+    var pending = document.getElementById('confirm-pending');
+    var ready = document.getElementById('confirm-ready');
+    if(pending) pending.style.display = 'none';
+    if(ready) ready.style.display = 'block';
+    // Scroll to confirm button
+    var wrapper = document.getElementById('confirm-wrapper');
+    if(wrapper) wrapper.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+});
 
 function toggleFaq(el) {
   const a = el.querySelector('.faq-a');
