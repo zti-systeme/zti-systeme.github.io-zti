@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZTi Système™ — Votre informatique sous contrôle</title>
+<link rel="icon" type="image/webp" href="https://lh3.googleusercontent.com/d/19jQdKpxrGcWlCnWFgdl4dTq_E8SJUiU2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --marine: #09006B;
+  --acier: #1A3A8F;
+  --signal: #4A90D9;
+  --ardoise: #4A5568;
+  --blanc: #FFFFFF;
+  --ivoire: #F4F6FA;
+  --marine-90: rgba(9,0,107,0.90);
+  --signal-hover: #09006B;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--marine);color:var(--blanc);overflow-x:hidden;min-height:100vh}
+.page{display:none;min-height:100vh;animation:fadeIn 0.5s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TYPOGRAPHY ── */
+h1{font-family:'Montserrat',sans-serif;font-weight:800;line-height:1.15;letter-spacing:-0.02em}
+h2{font-family:'Montserrat',sans-serif;font-weight:700;line-height:1.2}
+h3{font-family:'Montserrat',sans-serif;font-weight:600;line-height:1.3}
+p{line-height:1.7;color:rgba(255,255,255,0.85)}
+.text-signal{color:var(--signal)}
+.text-marine{color:var(--marine)}
+.text-ardoise{color:var(--ardoise)}
+
+/* ── LAYOUT ── */
+.container{max-width:760px;margin:0 auto;padding:0 24px}
+.section-white{background:var(--blanc);color:var(--ardoise)}
+.section-white p{color:var(--ardoise)}
+.section-white h1,.section-white h2,.section-white h3{color:var(--marine)}
+.section-ivoire{background:var(--ivoire);color:var(--ardoise)}
+.section-ivoire p{color:var(--ardoise)}
+.section-ivoire h1,.section-ivoire h2,.section-ivoire h3{color:var(--marine)}
+.section-marine{background:var(--marine);color:var(--blanc)}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  display:inline-block;background:var(--signal);color:var(--blanc);
+  font-family:'Montserrat',sans-serif;font-weight:500;font-size:16px;
+  padding:16px 32px;border-radius:4px;border:none;cursor:pointer;
+  text-decoration:none;transition:background 0.2s ease;text-align:center;
+  letter-spacing:0.01em;width:100%;max-width:460px
+}
+.btn-primary:hover{background:var(--signal-hover)}
+.btn-secondary{
+  display:inline-block;background:transparent;color:var(--marine);
+  font-family:'Montserrat',sans-serif;font-weight:500;font-size:15px;
+  padding:14px 28px;border-radius:4px;border:2px solid var(--marine);
+  cursor:pointer;text-decoration:none;transition:all 0.2s ease;text-align:center;width:100%;max-width:460px
+}
+.btn-secondary:hover{background:var(--marine);color:var(--blanc)}
+.btn-white{
+  display:inline-block;background:var(--blanc);color:var(--marine);
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:16px;
+  padding:16px 32px;border-radius:4px;border:none;cursor:pointer;
+  text-decoration:none;transition:all 0.2s ease;text-align:center;width:100%;max-width:460px
+}
+.btn-white:hover{background:var(--ivoire)}
+.cta-wrapper{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px}
+.cta-hint{font-size:13px;color:rgba(255,255,255,0.55);font-style:italic}
+.cta-hint-dark{font-size:13px;color:var(--ardoise);font-style:italic}
+
+
+
+/* ── ATTESTATION PROTECTION ── */
+.attest-wrapper{position:relative;user-select:none;-webkit-user-select:none}
+.attest-wrapper img{pointer-events:none;-webkit-user-drag:none;user-drag:none;display:block;width:100%}
+.attest-overlay{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    -45deg,
+    transparent,transparent 60px,
+    rgba(9,0,107,0.04) 60px,rgba(9,0,107,0.04) 61px
+  );
+  pointer-events:none;z-index:2
+}
+.attest-watermark{
+  position:absolute;bottom:16px;right:16px;z-index:3;
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;
+  color:rgba(9,0,107,0.25);letter-spacing:0.08em;pointer-events:none;
+  text-transform:uppercase
+}
+
+/* ── BACK BUTTON ── */
+.btn-back{
+  position:fixed;top:68px;left:16px;z-index:98;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  border-radius:50%;cursor:pointer;
+  color:rgba(255,255,255,0.5);font-size:20px;
+  width:34px;height:34px;display:none;
+  align-items:center;justify-content:center;
+  transition:all 0.2s;font-family:'Inter',sans-serif;
+  line-height:1;padding:0 0 1px 1px
+}
+.btn-back:hover{
+  color:rgba(255,255,255,0.9);
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(255,255,255,0.3)
+}
+.btn-back.visible{display:flex}
+.btn-back.on-white{
+  background:rgba(9,0,107,0.07);
+  border-color:rgba(9,0,107,0.18);
+  color:rgba(9,0,107,0.45)
+}
+.btn-back.on-white:hover{
+  background:rgba(9,0,107,0.14);
+  color:rgba(9,0,107,0.8);
+  border-color:rgba(9,0,107,0.3)
+}
+
+/* ── HEADER BAR ── */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:var(--marine);border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  height:56px;gap:12px
+}
+.header-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-brand img{height:32px;width:auto}
+.header-brand-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px;color:var(--blanc);letter-spacing:-0.01em;white-space:nowrap}
+.header-brand-name sup{font-size:10px;font-weight:500;vertical-align:super;color:rgba(255,255,255,0.7)}
+.header-center{flex:1;text-align:center}
+.header-tagline{font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;letter-spacing:0.08em;color:rgba(255,255,255,0.60);text-transform:uppercase;white-space:nowrap}
+.header-cta{
+  background:var(--signal);color:var(--blanc);font-family:'Montserrat',sans-serif;
+  font-weight:500;font-size:13px;padding:9px 18px;border-radius:4px;
+  border:none;cursor:pointer;transition:background 0.2s;white-space:nowrap;flex-shrink:0
+}
+.header-cta:hover{background:var(--signal-hover)}
+@media(max-width:600px){.header-center{display:none}.header-brand-name{font-size:14px}}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{
+  position:fixed;top:53px;left:0;right:0;z-index:99;
+  height:3px;background:rgba(255,255,255,0.08)
+}
+.progress-fill{height:100%;background:var(--signal);transition:width 0.4s ease;width:12.5%}
+
+/* ── PAGE WRAPPER (account for fixed header) ── */
+.page-content{padding-top:80px}
+
+/* ── HERO SECTION ── */
+.hero{
+  background:var(--marine);padding:64px 24px 56px;text-align:center;
+  position:relative;overflow:hidden
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(74,144,217,0.12) 0%,transparent 70%);
+  pointer-events:none
+}
+.hero h1{font-size:clamp(28px,5vw,46px);color:var(--blanc);margin-bottom:24px;position:relative}
+.hero h1 span{color:var(--signal);display:block}
+.hero-sub{font-size:18px;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 40px;font-style:italic}
+
+/* ── PIXEL SIGNATURE ── */
+.pixel{display:inline-block;width:8px;height:8px;background:var(--signal);margin-left:6px;vertical-align:middle}
+.pixel-sm{display:inline-block;width:6px;height:6px;background:var(--signal);vertical-align:middle}
+
+/* ── SECTION DIVIDER ── */
+.divider{height:1px;background:var(--signal);opacity:0.25;margin:0}
+
+/* ── STORY BLOCK ── */
+.story-block{padding:56px 24px}
+.story-text{font-size:17px;line-height:1.85;max-width:640px;margin:0 auto}
+.story-text p{margin-bottom:20px}
+.story-text .dialogue{
+  border-left:3px solid var(--signal);padding:12px 20px;
+  background:rgba(74,144,217,0.08);border-radius:0 4px 4px 0;
+  margin:16px 0;font-style:italic;color:rgba(255,255,255,0.9)
+}
+.story-text .dialogue-dark{
+  border-left:3px solid var(--signal);padding:12px 20px;
+  background:rgba(74,144,217,0.06);border-radius:0 4px 4px 0;
+  margin:16px 0;font-style:italic;color:var(--ardoise)
+}
+.story-text .emphasis{font-weight:600;color:var(--signal)}
+.story-text .emphasis-dark{font-weight:600;color:var(--marine)}
+.story-text .pause{
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;
+  color:var(--blanc);margin:32px 0;text-align:center;line-height:1.5
+}
+.story-text .pause-dark{
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;
+  color:var(--marine);margin:32px 0;text-align:center;line-height:1.5
+}
+
+/* ── IMPACT BOXES ── */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+.impact-box{
+  padding:20px;border-radius:4px;border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.04)
+}
+.impact-box.negative{border-color:rgba(220,80,60,0.3);background:rgba(220,80,60,0.07)}
+.impact-box.positive{border-color:rgba(74,144,217,0.3);background:rgba(74,144,217,0.07)}
+.impact-label{font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;opacity:0.7}
+.impact-item{font-size:14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:8px;color:rgba(255,255,255,0.85)}
+.impact-icon{flex-shrink:0;margin-top:2px}
+
+/* ── COST BLOCK ── */
+.cost-block{
+  background:rgba(9,0,107,0.6);border:1px solid rgba(74,144,217,0.3);
+  border-radius:4px;padding:32px;margin:32px 0;text-align:center
+}
+.cost-block .big-number{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:clamp(32px,6vw,52px);color:var(--signal);line-height:1.1
+}
+.cost-block .big-label{font-size:15px;color:rgba(255,255,255,0.7);margin-top:8px}
+
+/* ── WHITE COST BLOCK ── */
+.cost-block-white{
+  background:var(--ivoire);border:1px solid rgba(26,58,143,0.15);
+  border-radius:4px;padding:32px;margin:32px 0;text-align:center
+}
+.cost-block-white .big-number{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:clamp(32px,6vw,52px);color:var(--marine);line-height:1.1
+}
+.cost-block-white .big-label{font-size:15px;color:var(--ardoise);margin-top:8px}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;margin:24px 0}
+.checklist li{
+  display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;
+  font-size:15px;color:rgba(255,255,255,0.85)
+}
+.checklist li .check{
+  flex-shrink:0;width:20px;height:20px;background:rgba(74,144,217,0.15);
+  border:1px solid var(--signal);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin-top:2px
+}
+.checklist li .check::after{content:'✓';font-size:11px;color:var(--signal);font-weight:700}
+.checklist-dark li{color:var(--ardoise)}
+.checklist-dark li .check{background:rgba(9,0,107,0.08);border-color:var(--marine)}
+.checklist-dark li .check::after{color:var(--marine)}
+
+/* ── PILLAR CARDS ── */
+.pillars{display:grid;grid-template-columns:1fr;gap:16px;margin:32px 0}
+.pillar{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;padding:24px;display:flex;gap:16px;align-items:flex-start
+}
+.pillar-white{
+  background:var(--blanc);border:1px solid rgba(9,0,107,0.1);
+  border-radius:4px;padding:24px;display:flex;gap:16px;align-items:flex-start;
+  margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05)
+}
+.pillar-num{
+  flex-shrink:0;width:36px;height:36px;background:var(--signal);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--blanc)
+}
+.pillar-num-marine{
+  flex-shrink:0;width:36px;height:36px;background:var(--marine);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--blanc)
+}
+.pillar-title{font-family:'Montserrat',sans-serif;font-weight:600;font-size:16px;margin-bottom:6px;color:var(--blanc)}
+.pillar-title-dark{font-family:'Montserrat',sans-serif;font-weight:600;font-size:16px;margin-bottom:6px;color:var(--marine)}
+.pillar-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.65}
+.pillar-text-dark{font-size:14px;color:var(--ardoise);line-height:1.65}
+
+/* ── LOGOS CLIENTS ── */
+.logos-strip{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+  margin:32px 0;padding:24px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);border-radius:4px
+}
+.logo-badge{
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;
+  color:rgba(255,255,255,0.6);padding:8px 16px;border:1px solid rgba(255,255,255,0.15);
+  border-radius:4px;letter-spacing:0.05em
+}
+.logos-strip-white{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+  margin:32px 0;padding:24px;background:var(--ivoire);
+  border:1px solid rgba(9,0,107,0.1);border-radius:4px
+}
+.logo-badge-dark{
+  font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;
+  color:var(--marine);padding:8px 16px;border:1px solid rgba(9,0,107,0.2);
+  border-radius:4px;letter-spacing:0.05em
+}
+
+/* ── QUOTE ── */
+.quote-block{
+  border-left:3px solid var(--signal);padding:20px 24px;margin:32px 0;
+  background:rgba(74,144,217,0.06);border-radius:0 4px 4px 0
+}
+.quote-text{font-family:'Montserrat',sans-serif;font-weight:600;font-size:18px;color:var(--blanc);font-style:italic;line-height:1.5}
+.quote-text-dark{font-family:'Montserrat',sans-serif;font-weight:600;font-size:18px;color:var(--marine);font-style:italic;line-height:1.5}
+
+/* ── ATTESTATION CARDS ── */
+.attestation{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);
+  border-radius:4px;padding:24px;margin-bottom:16px
+}
+.attestation-white{
+  background:var(--ivoire);border:1px solid rgba(9,0,107,0.12);
+  border-radius:4px;padding:24px;margin-bottom:16px
+}
+.attestation-org{font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--signal)}
+.attestation-org-dark{font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--marine)}
+.attestation-detail{font-size:13px;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.6}
+.attestation-detail-dark{font-size:13px;color:var(--ardoise);margin-top:6px;line-height:1.6}
+.scan-placeholder{
+  background:rgba(255,255,255,0.08);border:1px dashed rgba(255,255,255,0.2);
+  border-radius:4px;padding:20px;text-align:center;margin-top:12px;
+  font-size:12px;color:rgba(255,255,255,0.4)
+}
+.scan-placeholder-dark{
+  background:rgba(9,0,107,0.05);border:1px dashed rgba(9,0,107,0.2);
+  border-radius:4px;padding:20px;text-align:center;margin-top:12px;
+  font-size:12px;color:rgba(9,0,107,0.5)
+}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--signal);
+  margin-bottom:12px;display:block
+}
+.section-label-dark{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--acier);
+  margin-bottom:12px;display:block
+}
+
+/* ── SITUATION CARDS ── */
+.situation-grid{display:grid;gap:16px;margin:32px 0}
+.sit-card{
+  border-radius:4px;padding:24px;border:1px solid rgba(255,255,255,0.1)
+}
+.sit-card.sit-ok{background:rgba(74,144,217,0.08);border-color:rgba(74,144,217,0.25)}
+.sit-card.sit-risk{background:rgba(220,80,60,0.07);border-color:rgba(220,80,60,0.25)}
+.sit-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px;margin-bottom:12px}
+
+/* ── FORM STYLES ── */
+.form-section{background:var(--blanc);padding:40px 24px}
+.form-section h2{color:var(--marine)}
+.progress-form{
+  display:flex;align-items:center;gap:8px;margin:24px 0 32px;
+  font-size:13px;color:var(--ardoise)
+}
+.progress-step{
+  flex:1;height:4px;border-radius:2px;background:rgba(9,0,107,0.1);
+  transition:background 0.3s
+}
+.progress-step.done{background:var(--signal)}
+.progress-step.active{background:var(--marine)}
+.form-group{margin-bottom:20px}
+.form-label{
+  display:block;font-family:'Montserrat',sans-serif;font-weight:600;
+  font-size:14px;color:var(--marine);margin-bottom:8px
+}
+.form-hint{font-size:12px;color:var(--ardoise);margin-bottom:8px;font-style:italic}
+.form-input{
+  width:100%;padding:12px 16px;border:1px solid #D1D5DB;border-radius:4px;
+  font-family:'Inter',sans-serif;font-size:15px;color:var(--ardoise);
+  background:var(--blanc);transition:border-color 0.2s;outline:none
+}
+.form-input:focus{border-color:var(--signal)}
+.form-radio-group{display:flex;flex-direction:column;gap:10px}
+.form-radio{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  border:1px solid #E2E8F0;border-radius:4px;cursor:pointer;
+  transition:all 0.2s;font-size:14px;color:var(--ardoise)
+}
+.form-radio:hover{border-color:var(--signal);background:rgba(74,144,217,0.04)}
+.form-radio input{accent-color:var(--signal)}
+.form-divider{
+  display:flex;align-items:center;gap:16px;margin:32px 0;
+  font-size:13px;color:var(--ardoise)
+}
+.form-divider::before,.form-divider::after{content:'';flex:1;height:1px;background:#E2E8F0}
+.form-step{display:none}
+.form-step.active{display:block;animation:fadeIn 0.4s ease}
+.form-trustline{
+  display:flex;flex-wrap:wrap;gap:16px;margin-top:24px;justify-content:center
+}
+.trust-item{
+  display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ardoise)
+}
+.trust-icon{font-size:14px}
+.tally-embed{
+  background:var(--ivoire);border:1px dashed rgba(9,0,107,0.2);
+  border-radius:4px;padding:32px;text-align:center;min-height:200px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px
+}
+.tally-note{font-size:13px;color:var(--ardoise)}
+.tally-url{font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px;color:var(--marine)}
+
+/* ── CONFIRMATION PAGE ── */
+.confirm-hero{
+  background:var(--marine);min-height:calc(100vh - 53px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;text-align:center
+}
+.confirm-icon{
+  width:72px;height:72px;background:rgba(74,144,217,0.15);
+  border:2px solid var(--signal);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 24px
+}
+.steps-next{
+  display:flex;flex-direction:column;gap:12px;margin:32px 0;
+  max-width:440px;margin-left:auto;margin-right:auto;text-align:left
+}
+.step-next{
+  display:flex;gap:14px;align-items:flex-start;padding:16px;
+  background:rgba(255,255,255,0.05);border-radius:4px;
+  border:1px solid rgba(255,255,255,0.1)
+}
+.step-next-icon{font-size:20px;flex-shrink:0}
+.step-next-text{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.5}
+.step-next-title{font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px;color:var(--blanc);margin-bottom:4px}
+
+/* ── FAQ ── */
+.faq-item{
+  border-bottom:1px solid rgba(255,255,255,0.1);padding:20px 0;cursor:pointer
+}
+.faq-q{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;
+  color:var(--blanc);display:flex;justify-content:space-between;align-items:center
+}
+.faq-a{font-size:14px;color:rgba(255,255,255,0.7);margin-top:12px;line-height:1.7;display:none}
+.faq-a.open{display:block;animation:fadeIn 0.3s ease}
+
+/* ── FOUNDER CARD ── */
+.founder-card{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);
+  border-radius:4px;padding:24px;display:flex;gap:20px;align-items:flex-start;margin:32px 0
+}
+.founder-avatar{
+  flex-shrink:0;width:64px;height:64px;border-radius:50%;
+  background:rgba(74,144,217,0.2);border:2px solid var(--signal);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:var(--signal)
+}
+.founder-name{font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--blanc)}
+.founder-title{font-size:13px;color:rgba(255,255,255,0.6);margin-top:3px}
+.founder-bio{font-size:14px;color:rgba(255,255,255,0.75);margin-top:10px;line-height:1.65}
+
+/* ── STATS ROW ── */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  margin:32px 0
+}
+.stat-box{
+  text-align:center;padding:20px 12px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px
+}
+.stat-num{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:clamp(24px,4vw,36px);color:var(--signal);line-height:1
+}
+.stat-label{font-size:12px;color:rgba(255,255,255,0.55);margin-top:6px;line-height:1.4}
+
+/* ── URGENCY BANNER ── */
+.urgency-banner{
+  background:rgba(74,144,217,0.12);border:1px solid rgba(74,144,217,0.3);
+  border-radius:4px;padding:16px 20px;margin:24px 0;
+  display:flex;align-items:center;gap:12px
+}
+.urgency-dot{
+  flex-shrink:0;width:10px;height:10px;background:#E85C3A;
+  border-radius:50%;animation:pulse 1.5s ease infinite
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.3)}}
+.urgency-text{font-size:14px;color:rgba(255,255,255,0.85)}
+.urgency-text strong{font-family:'Montserrat',sans-serif;font-weight:600;color:var(--blanc)}
+
+/* ── FOOTER ── */
+.tunnel-footer{
+  background:var(--marine);border-top:1px solid rgba(255,255,255,0.08);
+  padding:24px;text-align:center
+}
+.footer-tagline{
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;
+  color:rgba(255,255,255,0.5);margin-bottom:8px
+}
+.footer-legal{font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .impact-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr}
+  .founder-card{flex-direction:column}
+  h1{font-size:28px}
+  .hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- FIXED HEADER -->
+<div class="header">
+  <div class="header-brand">
+    <img src="https://lh3.googleusercontent.com/d/19jQdKpxrGcWlCnWFgdl4dTq_E8SJUiU2" alt="ZTi Système™" crossorigin="anonymous">
+    <span class="header-brand-name">Système<sup>™</sup></span>
+  </div>
+  <div class="header-center">
+    <span class="header-tagline">L'INFORMATIQUE STABLE DES ENTREPRISES</span>
+  </div>
+  <button class="header-cta" onclick="goTo('p7')">Diagnostic gratuit</button>
+</div>
+
+<!-- PROGRESS<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+<button class="btn-back" id="btn-back" onclick="goBack()">‹</button>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1 — ACCROCHE
+═══════════════════════════════════════════ -->
+<div class="page active" id="p1">
+  <div class="page-content">
+    <section class="hero">
+      <div class="container">
+        <span class="section-label">Pour les dirigeants de PME</span>
+        <h1>
+          UNE SEULE PANNE INFORMATIQUE SUFFIT<br>
+          POUR PARALYSER VOTRE ENTREPRISE
+          <span>EN MOINS DE 60 MINUTES</span>
+        </h1>
+        <p class="hero-sub">Et la plupart des dirigeants ne le voient pas venir…<br>Jusqu'au jour où il est trop tard.</p>
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p2')">➡ Lire l'histoire complète</button>
+          <span class="cta-hint">Gratuit · Sans engagement</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="story-block" style="background:rgba(255,255,255,0.03)">
+      <div class="container">
+        <div class="story-text">
+          <p><strong style="color:var(--blanc)">Imaginez…</strong></p>
+          <p>Ce matin. Vous ou votre équipe arrivez au bureau. Les ordinateurs démarrent, le café est encore chaud, et chacun s'installe à son poste.</p>
+          <p>Puis quelqu'un dit :</p>
+          <div class="dialogue">« Chef… les dossiers clients ne s'ouvrent plus. »</div>
+          <p>Vous pensez à un petit bug. Ça arrive.</p>
+          <p>Mais deux minutes plus tard :</p>
+          <div class="dialogue">« Moi non plus je n'y ai plus accès. »<br>« Les fichiers ont disparu… »</div>
+          <p>Vous vérifiez les dossiers. Ils sont là… mais <span class="emphasis">vides.</span></p>
+          <p>Le silence tombe dans le bureau. Et votre téléphone commence à sonner.</p>
+          <div class="pause">Vous réalisez soudain :<br>vous ne savez pas ce qui a disparu,<br>vous ne savez pas combien de temps cela va durer.</div>
+        </div>
+
+        <div class="logos-strip" style="align-items:center;margin:32px 0;background:rgba(255,255,255,0.06);gap:20px;padding:20px 16px">
+          <img src="https://lh3.googleusercontent.com/d/1-1iEwh2D1bm17DZpHdrpXEqBsNNo4NEF" alt="ANRP" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1LwWfWTVkb1lR46oo6l4MhiI2lDj5xX8u" alt="CDHC" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oRcLbUi3u98KtCgomgBcQ2nln4BDjv89" alt="C-U-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1SlExoQMxc8VK9lyAi3Fu_k19nSv6BFq8" alt="CVI-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1-5V0DZJIoWJc8tigvSXS8WLWX9dixLoh" alt="CALY SARL" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1omm2SfgMmZQWFjuD4_BdGWb5aKde1q4A" alt="Miel Royal" crossorigin="anonymous" style="height:52px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oq35r_FX4_69J_1yumQmwVXTDcufv4No" alt="InfoTv" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1uk6XLCige-AL0Zyh-uvJOT6Xk6ruubge" alt="L'Épervier" crossorigin="anonymous" style="height:40px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1PiS6gIaKJj5FuyQLIq3lEcVq2Sj1gS_J" alt="Pennasol SARL" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+        </div>
+        <p style="text-align:center;font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:32px">Depuis 14 ans, plus de 60 organisations nous confient leur infrastructure.</p>
+
+        <ul class="checklist">
+          <li><span class="check"></span>Protéger vos données clients, fichiers de projets et informations financières</li>
+          <li><span class="check"></span>Éliminer les pannes qui bloquent votre équipe — avant qu'elles ne surviennent</li>
+          <li><span class="check"></span>Mettre vos logiciels en conformité — zéro amende, zéro stress</li>
+          <li><span class="check"></span>Veiller sur votre informatique en continu — sans que vous ayez à y penser</li>
+        </ul>
+
+        <div class="quote-block" style="margin-top:32px">
+          <p class="quote-text">Votre informatique devient un système fiable, sécurisé et silencieux qui travaille pour vous. Pas l'inverse.</p>
+        </div>
+
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p7')">➡ Vérifier si mon entreprise est en danger</button>
+          <span class="cta-hint">Gratuit · Sans engagement</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2 — HISTOIRE
+═══════════════════════════════════════════ -->
+<div class="page" id="p2">
+  <div class="page-content">
+    <section class="story-block section-marine">
+      <div class="container">
+        <span class="section-label">La situation réelle</span>
+        <h2 style="font-size:clamp(24px,4vw,34px);margin-bottom:32px">Le lundi matin qui a tout changé</h2>
+
+        <div class="story-text">
+          <p>Le lundi matin commençait comme tous les autres. Le café encore chaud sur le bureau, l'ordinateur qui démarre lentement…</p>
+          <p>Dans l'agence de communication de Marc, chacun s'installe à son poste. Une semaine importante commence : lancement d'une campagne pour un gros client, plusieurs livraisons prévues et une réunion stratégique dans l'après-midi.</p>
+          <p>À 9h07, Amina du service client envoie un message :</p>
+          <div class="dialogue">« Marc… je n'arrive plus à accéder aux dossiers clients. C'est normal ? »</div>
+          <p>Marc pense à un petit bug.</p>
+          <div class="dialogue">« Rafraîchis la page. »</div>
+          <p>Deux minutes plus tard :</p>
+          <div class="dialogue">« Moi non plus je n'ai plus accès. »<br>« Les fichiers ne s'ouvrent pas chez moi. »</div>
+          <p>Puis le message que personne ne veut lire :</p>
+          <div class="dialogue">« Je crois qu'on a un problème. »</div>
+          <p>Marc ouvre son tableau de bord. Les dossiers sont là… <span class="emphasis">mais vides.</span></p>
+          <p>Le silence tombe dans l'open space. Quelqu'un murmure :</p>
+          <div class="dialogue">« Les données… elles sont où ? »</div>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-box negative">
+            <div class="impact-label">❌ La réalité</div>
+            <div class="impact-item"><span class="impact-icon">·</span> Données perdues. Les sauvegardes… introuvables.</div>
+            <div class="impact-item"><span class="impact-icon">·</span> Équipe paralysée. Personne ne sait quoi faire.</div>
+            <div class="impact-item"><span class="impact-icon">·</span> Client qui appelle. La réunion dans 2 heures.</div>
+          </div>
+          <div class="impact-box">
+            <div class="impact-label" style="color:rgba(255,255,255,0.5)">La vérité</div>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,0.7)">Ce genre de problème n'arrive jamais au bon moment. Il arrive un lundi matin ordinaire. Quand tout dépend de ce qui est censé fonctionner.</p>
+          </div>
+        </div>
+
+        <div class="cost-block">
+          <div class="big-number">26 400 000 FCFA</div>
+          <div class="big-label">perdus chaque année — silencieusement<br><span style="font-size:12px;opacity:0.6">Sans panne majeure. Juste un système informatique mal géré.</span></div>
+          <div style="margin-top:20px;font-size:13px;color:rgba(255,255,255,0.5)">
+            2h perdues/jour × 50 000 FCFA/h = 100 000 FCFA/jour<br>
+            × 22 jours × 12 mois = 26 400 000 FCFA/an
+          </div>
+        </div>
+
+        <div class="story-text">
+          <div class="pause">Le plus difficile pour Marc n'était pas la panne.<br>C'était de réaliser que tout cela aurait pu être évité.</div>
+        </div>
+
+        <div class="logos-strip" style="align-items:center;margin:32px 0;background:rgba(255,255,255,0.06);gap:20px;padding:20px 16px">
+          <img src="https://lh3.googleusercontent.com/d/1-1iEwh2D1bm17DZpHdrpXEqBsNNo4NEF" alt="ANRP" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1LwWfWTVkb1lR46oo6l4MhiI2lDj5xX8u" alt="CDHC" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oRcLbUi3u98KtCgomgBcQ2nln4BDjv89" alt="C-U-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1SlExoQMxc8VK9lyAi3Fu_k19nSv6BFq8" alt="CVI-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1-5V0DZJIoWJc8tigvSXS8WLWX9dixLoh" alt="CALY SARL" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1omm2SfgMmZQWFjuD4_BdGWb5aKde1q4A" alt="Miel Royal" crossorigin="anonymous" style="height:52px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oq35r_FX4_69J_1yumQmwVXTDcufv4No" alt="InfoTv" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1uk6XLCige-AL0Zyh-uvJOT6Xk6ruubge" alt="L'Épervier" crossorigin="anonymous" style="height:40px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1PiS6gIaKJj5FuyQLIq3lEcVq2Sj1gS_J" alt="Pennasol SARL" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+        </div>
+        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.45);margin-top:-16px;margin-bottom:32px">Ces entreprises ont sécurisé leur informatique avec ZTi.</p>
+
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p3')">➡ Découvrir comment éviter cela</button>
+          <button class="btn-secondary" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);max-width:460px;width:100%" onclick="goTo('p7')">Activer mon diagnostic IT</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3 — DIAGNOSTIC
+═══════════════════════════════════════════ -->
+<div class="page" id="p3">
+  <div class="page-content">
+    <section class="story-block section-white">
+      <div class="container">
+        <span class="section-label-dark">Ce que Marc aurait aimé savoir</span>
+        <h2 style="font-size:clamp(22px,4vw,32px);margin-bottom:24px">La plupart des pannes graves ne sont pas imprévisibles</h2>
+        <p style="margin-bottom:24px">Les signes sont souvent présents depuis des mois. Mais comme tout fonctionne encore à peu près… on repousse toujours la vérification.</p>
+
+        <div class="checklist checklist-dark" style="margin-bottom:32px">
+          <li><span class="check"></span>Ordinateurs qui deviennent de plus en plus lents</li>
+          <li><span class="check"></span>Fichiers qui mettent du temps à s'ouvrir</li>
+          <li><span class="check"></span>Sauvegardes mal configurées ou jamais testées</li>
+          <li><span class="check"></span>Logiciels installés sans véritable suivi</li>
+          <li><span class="check"></span>Sécurité informatique insuffisante</li>
+        </div>
+
+        <div class="quote-block" style="border-color:var(--marine)">
+          <p class="quote-text-dark">La vraie question est : votre entreprise est-elle prête quand cela arrivera ?</p>
+        </div>
+
+        <h3 style="margin:32px 0 20px">Le diagnostic informatique ZTi</h3>
+        <p style="margin-bottom:24px">Un diagnostic IT simple et rapide pour évaluer si votre système est réellement prêt à faire face à une panne serveur, un virus, une perte de données ou un contrôle de conformité.</p>
+
+        <div class="pillars">
+          <div class="pillar-white">
+            <div class="pillar-num-marine">1</div>
+            <div>
+              <div class="pillar-title-dark">Évaluation rapide</div>
+              <div class="pillar-text-dark">Quelques questions pour comprendre votre système informatique actuel.</div>
+            </div>
+          </div>
+          <div class="pillar-white">
+            <div class="pillar-num-marine">2</div>
+            <div>
+              <div class="pillar-title-dark">Analyse des risques</div>
+              <div class="pillar-text-dark">Identification des points critiques dans votre infrastructure.</div>
+            </div>
+          </div>
+          <div class="pillar-white">
+            <div class="pillar-num-marine">3</div>
+            <div>
+              <div class="pillar-title-dark">Recommandations concrètes</div>
+              <div class="pillar-text-dark">Actions précises pour sécuriser votre entreprise immédiatement.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cost-block-white">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--marine);margin-bottom:16px">Avec ce diagnostic vous saurez :</p>
+          <ul class="checklist checklist-dark" style="text-align:left">
+            <li><span class="check"></span>Si vos données peuvent disparaître demain</li>
+            <li><span class="check"></span>Si votre entreprise est vulnérable aux ransomwares</li>
+            <li><span class="check"></span>Si vos licences peuvent provoquer une amende</li>
+            <li><span class="check"></span>Si votre système peut tomber en panne à tout moment</li>
+          </ul>
+        </div>
+
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p7')">➡ Lancer mon diagnostic informatique</button>
+          <span class="cta-hint-dark">Gratuit · Sans engagement · Résultat immédiat</span>
+          <button class="btn-secondary" onclick="goTo('p4')" style="margin-top:8px">En savoir plus sur la solution →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4 — SOLUTION
+═══════════════════════════════════════════ -->
+<div class="page" id="p4">
+  <div class="page-content">
+    <section class="story-block section-marine">
+      <div class="container">
+        <span class="section-label">Ce qui se passe après le diagnostic</span>
+        <h2 style="font-size:clamp(22px,4vw,30px);margin-bottom:24px">Les dirigeants ne demandent pas une informatique compliquée</h2>
+        <p style="margin-bottom:32px">En réalité, ils veulent simplement trois choses.</p>
+
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-num">1</div>
+            <div>
+              <div class="pillar-title">Continuité</div>
+              <div class="pillar-text">L'entreprise travaille sans interruption. Les équipes accèdent aux fichiers, logiciels et dossiers clients à tout moment.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">2</div>
+            <div>
+              <div class="pillar-title">Sécurité</div>
+              <div class="pillar-text">Les données clients, documents stratégiques et informations financières sont protégés contre les pertes, virus et cyberattaques.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">3</div>
+            <div>
+              <div class="pillar-title">Tranquillité</div>
+              <div class="pillar-text">Ne plus être réveillé par un appel disant "Le système est tombé". Se concentrer sur le développement, pas sur les urgences IT.</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin:40px 0 20px">Comment ZTi sécurise votre informatique</h3>
+        <p style="margin-bottom:28px">Notre approche repose sur un principe simple : prévenir les pannes plutôt que les subir.</p>
+
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">🔍</div>
+            <div>
+              <div class="pillar-title">Surveillance continue</div>
+              <div class="pillar-text">Vos serveurs, postes de travail et réseau surveillés en permanence. Nous intervenons avant que votre équipe soit bloquée.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">🛡️</div>
+            <div>
+              <div class="pillar-title">Sauvegarde & protection</div>
+              <div class="pillar-text">Données clients, fichiers projets, informations financières sauvegardés de manière sécurisée. Récupérables même en cas de virus.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">🔒</div>
+            <div>
+              <div class="pillar-title">Sécurité anti-intrusion</div>
+              <div class="pillar-text">Protections adaptées contre les virus, ransomwares et intrusions réseau. Votre système reste protégé en permanence.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">⚡</div>
+            <div>
+              <div class="pillar-title">Sécurité électrique</div>
+              <div class="pillar-text">Protection contre les coupures répétitives et les baisses de tension. Onduleurs et parasurtenseurs pour préserver vos équipements et éviter les pertes de données dues aux aléas du réseau électrique.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">⚙️</div>
+            <div>
+              <div class="pillar-title">Maintenance & optimisation</div>
+              <div class="pillar-text">Entretien régulier pour éviter lenteurs et dysfonctionnements. Infrastructure stable, rapide, fiable.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num" style="background:rgba(74,144,217,0.2);border:1px solid var(--signal)">📋</div>
+            <div>
+              <div class="pillar-title">Conformité logicielle</div>
+              <div class="pillar-text">Vos logiciels correctement licenciés et conformes. Zéro risque d'amende lors d'un contrôle.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p7')">➡ Activer mon diagnostic IT</button>
+          <span class="cta-hint">Gratuit · Sans engagement · Résultat immédiat</span>
+          <button class="btn-secondary" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);max-width:460px;width:100%;margin-top:8px" onclick="goTo('p5')">Découvrir le ZTi Système™ →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 5 — MÉTHODE + ATTESTATIONS
+═══════════════════════════════════════════ -->
+<div class="page" id="p5">
+  <div class="page-content">
+    <section class="story-block section-white">
+      <div class="container">
+        <span class="section-label-dark">Méthodologie propriétaire</span>
+        <h2 style="font-size:clamp(22px,4vw,30px);margin-bottom:8px">Le ZTi Système™</h2>
+        <p style="margin-bottom:32px">Contrairement aux approches classiques basées sur la réparation après panne, cette méthode agit de manière préventive.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px">
+          <div class="attestation-white" style="text-align:center">
+            <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;color:var(--marine)">1</div>
+            <div class="attestation-org-dark" style="font-size:14px">Prévention</div>
+            <div class="attestation-detail-dark">Identifier les failles avant la panne</div>
+          </div>
+          <div class="attestation-white" style="text-align:center">
+            <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;color:var(--marine)">2</div>
+            <div class="attestation-org-dark" style="font-size:14px">Protection</div>
+            <div class="attestation-detail-dark">Sécuriser données et infrastructure</div>
+          </div>
+          <div class="attestation-white" style="text-align:center">
+            <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;color:var(--marine)">3</div>
+            <div class="attestation-org-dark" style="font-size:14px">Surveillance</div>
+            <div class="attestation-detail-dark">Supervision continue des systèmes</div>
+          </div>
+          <div class="attestation-white" style="text-align:center">
+            <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;color:var(--marine)">4</div>
+            <div class="attestation-org-dark" style="font-size:14px">Optimisation</div>
+            <div class="attestation-detail-dark">Maintenance et amélioration continue</div>
+          </div>
+        </div>
+
+        <div class="quote-block" style="border-color:var(--marine)">
+          <p class="quote-text-dark">« Votre outil informatique doit travailler pour vous. Pas l'inverse. »</p>
+          <p style="font-size:13px;color:var(--ardoise);margin-top:8px">— Marcelin MEUKAM, Fondateur ZTi Système™</p>
+        </div>
+
+
+        <div style="background:var(--ivoire);border:1px solid rgba(9,0,107,0.1);border-radius:4px;padding:24px;display:flex;gap:20px;align-items:flex-start;margin:32px 0">
+          <div style="flex-shrink:0;width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--marine)">
+            <img src="https://lh3.googleusercontent.com/d/1ajmjyzlpCSW3PjNEx9ZvoYvP1RHd44gp" alt="Marcelin MEUKAM" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in" draggable="false" oncontextmenu="return false" onclick="openAttest(this)">
+          </div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--marine)">Marcelin MEUKAM</div>
+            <div style="font-size:13px;color:var(--ardoise);margin-top:3px">Fondateur et CEO · ZTi SARL</div>
+            <div style="font-size:14px;color:var(--ardoise);margin-top:8px;line-height:1.65;font-style:italic">« Votre outil informatique doit travailler pour vous. Pas l'inverse. »</div>
+          </div>
+        </div>
+
+        <h3 style="margin:40px 0 20px">Des compétences reconnues</h3>
+        <p style="margin-bottom:24px">ZTi a accompagné plusieurs organisations importantes au Cameroun :</p>
+
+        <div class="attestation-white">
+          <div class="attestation-org-dark">Commission Nationale des Droits de l'Homme et des Libertés — CNDHL</div>
+          <div class="attestation-detail-dark">Maintenance informatique · Juillet 2013 à Avril 2020 · <strong>7 ans de collaboration</strong></div>
+          <div class="attest-wrapper" style="margin-top:12px;border-radius:4px;overflow:hidden;border:1px solid rgba(9,0,107,0.1)" oncontextmenu="return false;">
+            <img src="https://lh3.googleusercontent.com/d/1xY59YfNoocwUOySWEErP3BXnoQyCSVRe" alt="Attestation CNDHL" crossorigin="anonymous" style="width:100%;height:auto;display:block;cursor:pointer" onclick="openAttest(this)">
+            <div class="attest-overlay"></div>
+            <div class="attest-watermark">ZTi Système™ · Confidentiel</div>
+          </div>
+        </div>
+
+        <div class="attestation-white">
+          <div class="attestation-org-dark">CALY SARL · Yaoundé</div>
+          <div class="attestation-detail-dark">Maintenance et réseau · Mars 2014 à ce jour · <strong>13 ans de collaboration</strong></div>
+          <div class="attest-wrapper" style="margin-top:12px;border-radius:4px;overflow:hidden;border:1px solid rgba(9,0,107,0.1)" oncontextmenu="return false;">
+            <img src="https://lh3.googleusercontent.com/d/1_WHMS5nfYEbgis37WHCuAO2Z63PVAMf7" alt="Attestation CALY SARL" crossorigin="anonymous" style="width:100%;height:auto;display:block;cursor:pointer" onclick="openAttest(this)">
+            <div class="attest-overlay"></div>
+            <div class="attest-watermark">ZTi Système™ · Confidentiel</div>
+          </div>
+        </div>
+
+        <div class="attestation-white">
+          <div class="attestation-org-dark">CDHC / PACEL — Projet Fonds Européen de Développement</div>
+          <div class="attestation-detail-dark">Maintenance informatique · Janvier 2021 à Juillet 2022 · <strong>18 mois · Financement UE</strong></div>
+          <div class="attest-wrapper" style="margin-top:12px;border-radius:4px;overflow:hidden;border:1px solid rgba(9,0,107,0.1)" oncontextmenu="return false;">
+            <img src="https://lh3.googleusercontent.com/d/1ZtSNMrrc1gtWvD7niTfeIGXFeGdmf0D1" alt="Attestation CDHC/PACEL" crossorigin="anonymous" style="width:100%;height:auto;display:block;cursor:pointer" onclick="openAttest(this)">
+            <div class="attest-overlay"></div>
+            <div class="attest-watermark">ZTi Système™ · Confidentiel</div>
+          </div>
+        </div>
+
+        <div class="stats-row" style="margin-top:40px">
+          <div class="stat-box" style="background:var(--ivoire);border-color:rgba(9,0,107,0.1)">
+            <div class="stat-num" style="color:var(--marine)">14</div>
+            <div class="stat-label" style="color:var(--ardoise)">années d'expérience au Cameroun</div>
+          </div>
+          <div class="stat-box" style="background:var(--ivoire);border-color:rgba(9,0,107,0.1)">
+            <div class="stat-num" style="color:var(--marine)">60+</div>
+            <div class="stat-label" style="color:var(--ardoise)">organisations accompagnées</div>
+          </div>
+          <div class="stat-box" style="background:var(--ivoire);border-color:rgba(9,0,107,0.1)">
+            <div class="stat-num" style="color:var(--marine)">7 ans</div>
+            <div class="stat-label" style="color:var(--ardoise)">durée moyenne de collaboration</div>
+          </div>
+        </div>
+
+        <div class="cta-wrapper" style="margin-top:40px">
+          <button class="btn-primary" onclick="goTo('p7')">➡ Activer mon diagnostic IT</button>
+          <button class="btn-secondary" onclick="goTo('p6')" style="margin-top:8px">Et si c'était votre entreprise demain ? →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 6 — DÉCISION
+═══════════════════════════════════════════ -->
+<div class="page" id="p6">
+  <div class="page-content">
+    <section class="story-block section-marine">
+      <div class="container">
+        <span class="section-label">À ce stade</span>
+        <h2 style="font-size:clamp(22px,4vw,30px);margin-bottom:32px">Deux situations sont possibles</h2>
+
+        <div class="situation-grid">
+          <div class="sit-card sit-ok">
+            <div class="sit-title">✅ Situation 1</div>
+            <p style="font-size:15px">Votre système informatique est déjà structuré. Le diagnostic confirme simplement que tout est sécurisé.</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:10px">Vous repartez avec la tranquillité d'esprit.</p>
+          </div>
+          <div class="sit-card sit-risk">
+            <div class="sit-title">⚠️ Situation 2</div>
+            <p style="font-size:15px">Votre informatique fonctionne… mais avec des incertitudes : sauvegardes non vérifiées, machines lentes, sécurité inconnue.</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:10px">Le diagnostic identifie les risques avant la crise.</p>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:28px;margin:32px 0;text-align:center">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:20px;color:var(--blanc);line-height:1.5">Nous avons constaté que pour la majorité des entreprises camerounaises, <span style="color:var(--signal)">la deuxième situation est la plus fréquente.</span></p>
+        </div>
+
+        <div class="quote-block">
+          <p class="quote-text">Si votre serveur tombait en panne demain matin… votre entreprise pourrait-elle continuer à fonctionner ?</p>
+        </div>
+
+        <div class="impact-grid" style="margin-top:32px">
+          <div class="impact-box negative">
+            <div class="impact-label">❌ Sans ZTi</div>
+            <div class="impact-item">· Pannes non anticipées</div>
+            <div class="impact-item">· Données non sauvegardées</div>
+            <div class="impact-item">· Stress IT permanent</div>
+            <div class="impact-item">· Perte de temps et d'argent</div>
+          </div>
+          <div class="impact-box positive">
+            <div class="impact-label">✅ Avec ZTi</div>
+            <div class="impact-item">· Informatique stable</div>
+            <div class="impact-item">· Données sécurisées</div>
+            <div class="impact-item">· Activité protégée</div>
+            <div class="impact-item">· Tranquillité du dirigeant</div>
+          </div>
+        </div>
+
+        <div class="logos-strip" style="align-items:center;margin:32px 0;background:rgba(255,255,255,0.06);gap:20px;padding:20px 16px">
+          <img src="https://lh3.googleusercontent.com/d/1-1iEwh2D1bm17DZpHdrpXEqBsNNo4NEF" alt="ANRP" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1LwWfWTVkb1lR46oo6l4MhiI2lDj5xX8u" alt="CDHC" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oRcLbUi3u98KtCgomgBcQ2nln4BDjv89" alt="C-U-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1SlExoQMxc8VK9lyAi3Fu_k19nSv6BFq8" alt="CVI-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1-5V0DZJIoWJc8tigvSXS8WLWX9dixLoh" alt="CALY SARL" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1omm2SfgMmZQWFjuD4_BdGWb5aKde1q4A" alt="Miel Royal" crossorigin="anonymous" style="height:52px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oq35r_FX4_69J_1yumQmwVXTDcufv4No" alt="InfoTv" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1uk6XLCige-AL0Zyh-uvJOT6Xk6ruubge" alt="L'Épervier" crossorigin="anonymous" style="height:40px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1PiS6gIaKJj5FuyQLIq3lEcVq2Sj1gS_J" alt="Pennasol SARL" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+        </div>
+        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.45);margin-top:-16px;margin-bottom:32px">Plus de 60 organisations nous font déjà confiance.</p>
+
+        <div class="urgency-banner">
+          <div class="urgency-dot"></div>
+          <p class="urgency-text"><strong>Disponibilités limitées</strong> — Nous réalisons uniquement 8 diagnostics par mois. Ce mois-ci, 5 créneaux sont déjà réservés.</p>
+        </div>
+
+        <div class="cta-wrapper">
+          <button class="btn-primary" onclick="goTo('p7')">➡ Lancer mon diagnostic informatique</button>
+          <span class="cta-hint">Gratuit · Sans engagement</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 7 — FORMULAIRE
+═══════════════════════════════════════════ -->
+<div class="page" id="p7">
+  <div class="page-content">
+    <section class="form-section">
+      <div class="container">
+        <span class="section-label-dark">Diagnostic sur site — Gratuit</span>
+        <h2 style="font-size:clamp(22px,4vw,28px);margin-bottom:8px">Vérifions l'état réel de votre informatique</h2>
+        <p style="margin-bottom:24px;color:var(--ardoise)">Les pannes importantes ne sont presque jamais soudaines. Les signes existent souvent déjà.</p>
+
+        <div class="founder-card" style="background:var(--ivoire);border-color:rgba(9,0,107,0.12)">
+          <div class="founder-avatar" style="background:none;border:2px solid var(--signal);padding:0;overflow:hidden">
+            <img src="https://lh3.googleusercontent.com/d/1ajmjyzlpCSW3PjNEx9ZvoYvP1RHd44gp" alt="Marcelin MEUKAM" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover;border-radius:50%;cursor:zoom-in" draggable="false" oncontextmenu="return false" onclick="openAttest(this)">
+          </div>
+          <div>
+            <div class="founder-name" style="color:var(--marine)">Marcelin MEUKAM</div>
+            <div class="founder-title" style="color:var(--ardoise)">Fondateur et CEO · ZTi SARL</div>
+            <div class="founder-bio" style="color:var(--ardoise)">Depuis plus de 14 ans, il accompagne des PME et institutions camerounaises dans la sécurisation de leurs systèmes informatiques via le ZTi Système™.</div>
+          </div>
+        </div>
+
+        <div class="urgency-banner" style="background:rgba(232,93,58,0.08);border-color:rgba(232,93,58,0.25)">
+          <div class="urgency-dot"></div>
+          <p class="urgency-text" style="color:var(--ardoise)"><strong style="color:var(--marine)">3 créneaux restants ce mois-ci.</strong> Les demandes sont traitées dans l'ordre de réception.</p>
+        </div>
+
+        <!-- TALLY EMBED ZONE -->
+        <div style="margin:32px 0;border-radius:4px;overflow:hidden;border:1px solid rgba(9,0,107,0.12)">
+          <div style="background:var(--marine);color:var(--blanc);padding:12px 20px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px">
+            Demande de diagnostic — ZTi Système™
+          </div>
+          <div style="background:var(--blanc);padding:0 0 16px 0">
+          <iframe
+              data-tally-src="https://tally.so/embed/2Er1jj?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&emoji=%F0%9F%93%8B"
+              loading="lazy"
+              width="100%"
+              height="900"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              title="Diagnostic IT Gratuit — ZTi Système™"
+              style="display:block;background:var(--blanc);min-height:900px"
+              id="tally-iframe"
+            ></iframe>
+          <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+          </div>
+        </div>
+
+        <div class="form-trustline">
+          <div class="trust-item"><span class="trust-icon">💰</span> 100% gratuit</div>
+          <div class="trust-item"><span class="trust-icon">🎯</span> Sans engagement</div>
+          <div class="trust-item"><span class="trust-icon">🔒</span> 100% confidentiel</div>
+          <div class="trust-item"><span class="trust-icon">✅</span> Réservé aux dirigeants</div>
+        </div>
+
+        <div style="margin-top:32px;padding:20px;background:var(--ivoire);border-radius:4px;border:1px solid rgba(9,0,107,0.1)">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;color:var(--marine);margin-bottom:8px">Nous travaillons uniquement avec :</p>
+          <ul class="checklist checklist-dark">
+            <li><span class="check"></span>Dirigeants et décideurs</li>
+            <li><span class="check"></span>TPE, PME et institutions établies</li>
+            <li><span class="check"></span>Toute structure où l'informatique a un impact réel sur l'activité</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:32px;text-align:center" id="confirm-wrapper">
+          <div id="confirm-pending" style="padding:16px;background:rgba(74,144,217,0.08);border:1px solid rgba(74,144,217,0.2);border-radius:4px;font-size:14px;color:var(--ardoise)">
+            Remplissez le formulaire ci-dessus pour confirmer votre demande.
+          </div>
+          <div id="confirm-ready" style="display:none;animation:fadeIn 0.5s ease">
+            <div style="padding:12px 16px;background:rgba(74,144,217,0.08);border:1px solid rgba(74,144,217,0.25);border-radius:4px;margin-bottom:16px;font-size:14px;color:var(--ardoise);display:flex;align-items:center;gap:10px">
+              <span style="font-size:18px">✅</span>
+              <span>Formulaire bien reçu. Cliquez pour confirmer votre demande.</span>
+            </div>
+            <button class="btn-primary" onclick="sessionStorage.removeItem('zti-form-submitted');goTo('p8')" style="max-width:460px">
+              ➡ Confirmer ma demande
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 8 — CONFIRMATION
+═══════════════════════════════════════════ -->
+<div class="page" id="p8">
+  <div class="page-content">
+    <section class="confirm-hero">
+      <div class="container" style="max-width:560px">
+        <div class="confirm-icon">✅</div>
+        <span class="section-label">Demande enregistrée</span>
+        <h2 style="font-size:clamp(24px,4vw,32px);margin-bottom:16px">C'est fait.</h2>
+        <p style="font-size:17px;margin-bottom:8px;color:rgba(255,255,255,0.85)">Votre demande est enregistrée.</p>
+        <p style="color:rgba(255,255,255,0.6);margin-bottom:40px">Marcelin vous contactera personnellement sous 24 heures ouvrables.</p>
+
+        <div class="steps-next">
+          <div class="step-next">
+            <div class="step-next-icon">📧</div>
+            <div>
+              <div class="step-next-title">Email de confirmation</div>
+              <div class="step-next-text">Un email avec un créneau de rendez-vous vous sera envoyé sous 24h.</div>
+            </div>
+          </div>
+          <div class="step-next">
+            <div class="step-next-icon">📞</div>
+            <div>
+              <div class="step-next-title">Échange de 15–20 minutes</div>
+              <div class="step-next-text">Un appel rapide pour cadrer votre situation et préparer l'audit.</div>
+            </div>
+          </div>
+          <div class="step-next">
+            <div class="step-next-icon">🛡️</div>
+            <div>
+              <div class="step-next-title">Audit sur site ZTi</div>
+              <div class="step-next-text">État des lieux clair et complet de votre système informatique.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(74,144,217,0.12);border:1px solid rgba(74,144,217,0.3);border-radius:4px;padding:24px;margin:32px 0;text-align:left">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px;color:var(--blanc);margin-bottom:12px">📑 Guide offert — à venir :</p>
+          <p style="font-size:14px;color:rgba(255,255,255,0.8);margin-bottom:16px">Les 5 erreurs IT qui coûtent cher aux PME camerounaises</p>
+          <!-- PDF_LINK_PLACEHOLDER: remplacer le bloc ci-dessous par un vrai lien quand le PDF est disponible -->
+          <div style="background:rgba(255,255,255,0.06);border:1px dashed rgba(255,255,255,0.2);border-radius:4px;padding:14px 20px;text-align:center">
+            <p style="font-size:13px;color:rgba(255,255,255,0.5);font-style:italic">Guide en cours de préparation — disponible très prochainement.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:32px">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:rgba(255,255,255,0.8);margin-bottom:16px">Questions fréquentes</p>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">Si je ne signe pas ? <span>+</span></div>
+            <div class="faq-a">Le diagnostic reste 100% gratuit. Aucun engagement, aucune pression. Vous repartez avec un état des lieux clair de votre situation.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">Si je ne veux pas dépendre d'un prestataire ? <span>+</span></div>
+            <div class="faq-a">Vous restez libre à tout moment. Le diagnostic vous donne les clés pour prendre vos propres décisions, que vous travailliez avec nous ou non.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">Si je manque de temps ? <span>+</span></div>
+            <div class="faq-a">2 minutes ont suffi pour faire la demande. L'audit sur site est planifié à votre convenance, dans votre agenda.</div>
+          </div>
+        </div>
+
+        <div class="logos-strip" style="align-items:center;margin:40px 0 0;background:rgba(255,255,255,0.06);gap:20px;padding:20px 16px">
+          <img src="https://lh3.googleusercontent.com/d/1-1iEwh2D1bm17DZpHdrpXEqBsNNo4NEF" alt="ANRP" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1LwWfWTVkb1lR46oo6l4MhiI2lDj5xX8u" alt="CDHC" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oRcLbUi3u98KtCgomgBcQ2nln4BDjv89" alt="C-U-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1SlExoQMxc8VK9lyAi3Fu_k19nSv6BFq8" alt="CVI-Y" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1-5V0DZJIoWJc8tigvSXS8WLWX9dixLoh" alt="CALY SARL" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1omm2SfgMmZQWFjuD4_BdGWb5aKde1q4A" alt="Miel Royal" crossorigin="anonymous" style="height:52px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1oq35r_FX4_69J_1yumQmwVXTDcufv4No" alt="InfoTv" crossorigin="anonymous" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1uk6XLCige-AL0Zyh-uvJOT6Xk6ruubge" alt="L'Épervier" crossorigin="anonymous" style="height:40px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+          <img src="https://lh3.googleusercontent.com/d/1PiS6gIaKJj5FuyQLIq3lEcVq2Sj1gS_J" alt="Pennasol SARL" crossorigin="anonymous" style="height:44px;width:auto;object-fit:contain;mix-blend-mode:screen;opacity:0.9">
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.45);text-align:center;margin-top:8px">Plus de 60 organisations nous font déjà confiance.</p>
+
+        <div style="margin-top:32px;text-align:center">
+          <p style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:rgba(255,255,255,0.7)">Marcelin MEUKAM</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.45)">Fondateur et CEO · ZTi SARL</p>
+          <p style="font-style:italic;font-size:14px;color:rgba(255,255,255,0.55);margin-top:8px">« Votre outil informatique doit travailler pour vous. Pas l'inverse. »</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="tunnel-footer">
+  <div class="footer-tagline">ZTi, votre partenaire de confiance !</div>
+  <div class="footer-legal">ZTi Système™ · Zèl Tum Initiative SARL · Yaoundé, Cameroun · Partenaire Recoveo France<br>© 2024 ZTi Système™ — Tous droits réservés · Document confidentiel</div>
+</div>
+
+<script>
+const pages = ['p1','p2','p3','p4','p5','p6','p7','p8'];
+const progressMap = {p1:12.5,p2:25,p3:37.5,p4:50,p5:62.5,p6:75,p7:87.5,p8:100};
+
+// Hash navigation only on explicit user action — never on load/refresh
+
+// ── TALLY SUBMIT DETECTION ──
+function showConfirmButton() {
+  var pending = document.getElementById('confirm-pending');
+  var ready = document.getElementById('confirm-ready');
+  if(pending) pending.style.display = 'none';
+  if(ready) {
+    ready.style.display = 'block';
+    setTimeout(function(){
+      ready.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 300);
+  }
+}
+
+// Listen for Tally postMessage
+window.addEventListener('message', function(event) {
+  if(!event.data) return;
+  var isSubmit = (
+    event.data.type === 'tally-form-submitted' ||
+    event.data.type === 'tally-form-response' ||
+    event.data.type === 'form-submit'
+  );
+  if(isSubmit) {
+    sessionStorage.setItem('zti-form-submitted','1');
+    showConfirmButton();
+  }
+});
+
+// On page load — if Tally redirected back here after submit, detect the flag
+window.addEventListener('load', function() {
+  if(sessionStorage.getItem('zti-form-submitted') === '1') {
+    goTo('p7');
+    setTimeout(showConfirmButton, 500);
+  }
+});
+
+const history_stack = [];
+
+function goTo(id) {
+  if(id === 'p1') sessionStorage.removeItem('zti-form-submitted');
+  const current = pages.find(p => document.getElementById(p)?.classList.contains('active'));
+  if(current && current !== id) history_stack.push(current);
+  pages.forEach(p => {
+    const el = document.getElementById(p);
+    if(el) el.classList.remove('active');
+  });
+  const target = document.getElementById(id);
+  if(target) {
+    target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    const pf = document.getElementById('progress');
+    if(pf) pf.style.width = (progressMap[id]||12.5)+'%';
+  }
+  const backBtn = document.getElementById('btn-back');
+  if(backBtn) {
+    if(history_stack.length > 0) backBtn.classList.add('visible');
+    else backBtn.classList.remove('visible');
+    const whitePgs = ['p3','p5','p7'];
+    if(whitePgs.includes(id)) backBtn.classList.add('on-white');
+    else backBtn.classList.remove('on-white');
+  }
+}
+
+function goBack() {
+  if(history_stack.length > 0) {
+    const prev = history_stack.pop();
+    pages.forEach(p => {
+      const el = document.getElementById(p);
+      if(el) el.classList.remove('active');
+    });
+    const target = document.getElementById(prev);
+    if(target) {
+      target.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+      const pf = document.getElementById('progress');
+      if(pf) pf.style.width = (progressMap[prev]||12.5)+'%';
+    }
+    const backBtn = document.getElementById('btn-back');
+    if(backBtn) {
+      if(history_stack.length > 0) backBtn.classList.add('visible');
+      else backBtn.classList.remove('visible');
+      const whitePgs = ['p3','p5','p7'];
+      if(whitePgs.includes(prev)) backBtn.classList.add('on-white');
+      else backBtn.classList.remove('on-white');
+    }
+  }
+}
+
+// Listen for Tally form submission signal
+// Cookie helper
+function setCookie(name, val, minutes) {
+  var d = new Date();
+  d.setTime(d.getTime() + (minutes*60*1000));
+  document.cookie = name + "=" + val + ";expires=" + d.toUTCString() + ";path=/";
+}
+function getCookie(name) {
+  var n = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++){
+    var c = ca[i].trim();
+    if(c.indexOf(n)===0) return c.substring(n.length,c.length);
+  }
+  return "";
+}
+
+// Show confirm button
+function showConfirmBtn() {
+  var pending = document.getElementById('confirm-pending');
+  var ready = document.getElementById('confirm-ready');
+  if(pending) pending.style.display = 'none';
+  if(ready) {
+    ready.style.display = 'block';
+    setTimeout(function(){
+      ready.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 300);
+  }
+}
+
+// Check cookie on page load — handles GitHub Pages reload
+window.addEventListener('DOMContentLoaded', function() {
+  if(getCookie('zti_form_done') === '1') {
+    // Switch to P7 and show confirm button
+    goTo('p7');
+    setTimeout(showConfirmBtn, 400);
+    // Clear cookie after use
+    setCookie('zti_form_done', '', -1);
+  }
+});
+
+// Listen for Tally submission — all possible event types
+window.addEventListener('message', function(event) {
+  var d = event.data;
+  if(!d) return;
+  var isSubmit = (
+    d.type === 'tally-form-submitted' ||
+    d.type === 'tally-form-response' ||
+    d.type === 'tally-response-uploaded' ||
+    (typeof d === 'object' && d.iFrameId && d.type && d.type.indexOf('tally') > -1)
+  );
+  if(isSubmit) {
+    setCookie('zti_form_done', '1', 30);
+    showConfirmBtn();
+  }
+});
+
+function toggleFaq(el) {
+  const a = el.querySelector('.faq-a');
+  const span = el.querySelector('.faq-q span');
+  if(a.classList.contains('open')) {
+    a.classList.remove('open');
+    if(span) span.textContent = '+';
+  } else {
+    document.querySelectorAll('.faq-a.open').forEach(x=>x.classList.remove('open'));
+    document.querySelectorAll('.faq-q span').forEach(x=>x.textContent='+');
+    a.classList.add('open');
+    if(span) span.textContent = '−';
+  }
+}
+</script>
+
+<!-- LIGHTBOX ATTESTATIONS -->
+<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:999;align-items:center;justify-content:center;padding:24px">
+  <img id="lb-img" src="" style="max-width:90vw;max-height:90vh;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,0.5)">
+  <div style="position:absolute;top:16px;right:20px;color:white;font-size:28px;cursor:pointer;font-family:sans-serif" onclick="closeLightbox()">✕</div>
+</div>
+
+<script>
+function openAttest(img){var lb=document.getElementById("lightbox");var li=document.getElementById("lb-img");li.src=img.src;lb.style.display="flex";}
+function closeLightbox(){document.getElementById("lightbox").style.display="none";}
+</script>
+</body>
+</html>
